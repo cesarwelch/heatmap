@@ -29,7 +29,6 @@ export default function Heatmap() {
   useInterval(
     () => {
       if (data.length > count) {
-        console.log("wow");
         setCount(count + 1);
         setPointsInfo(data[count]);
       } else {
