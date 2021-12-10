@@ -1,85 +1,83 @@
 import React, { useState, useEffect } from "react";
 import h337 from "heatmapjs";
 import Slider from "@mui/material/Slider";
-import Image from "./lobb.png";
+import Image from "../assets/itcPlan.png";
+import { data } from "../assets/formattedheatmapdata";
 import "./styles.css";
 
 export default function Heatmap() {
   const [heatMapInstance, setHeatMapInstance] = useState();
-  const getX = () => Math.random() * (500 - 40) + 40;
-  const getY = () => Math.random() * (280 - 40) + 40;
-  const [pointsInfo, setPointsInfo] = useState([
-    { x: getX(), y: getY(), value: 0 },
-    { x: getX(), y: getY(), value: 0 },
-    { x: getX(), y: getY(), value: 0 },
-    { x: getX(), y: getY(), value: 0 },
-    { x: getX(), y: getY(), value: 0 },
-    { x: getX(), y: getY(), value: 0 },
-    { x: getX(), y: getY(), value: 0 },
-    { x: getX(), y: getY(), value: 0 },
-    { x: getX(), y: getY(), value: 0 },
-  ]);
+  // const [pointsInfo, setPointsInfo] = useState(data[0]);
+  const [pointsInfo, setPointsInfo] = useState([data[0]]);
+
+  // const test = data.map((i) =>
+  //   i.map((j) => {
+  //     return { x: j.x / 4, y: j.y / 4, value: (j.value / 100) * 4 };
+  //   })
+  // );
+  // console.log(
+  //   "🚀 ~ file: Heatmap.js ~ line 18 ~ Heatmap ~ test",
+  //   JSON.stringify(test)
+  // );
 
   useEffect(() => {
-    setHeatMapInstance(
-      h337.create({
-        container: document.querySelector(".heatmap"),
-        gradient: {
-          1: "blue",
-          ".5": "cyan",
-          ".8": "red",
-          ".95": "white",
-        },
-      })
-    );
+    const instance = h337.create({
+      container: document.querySelector(".heatmap"),
+      minOpacity: ".4",
+      gradient: {
+        ".01": "blue",
+        ".25": "cyan",
+        ".5": "yellow",
+        ".75": "orange",
+        1: "red",
+      },
+    });
+    let dataSet = {
+      max: 100,
+      min: 0,
+      data: data[5],
+    };
+    instance.setData(dataSet);
+    setHeatMapInstance(instance);
   }, []);
   // 566  383
   const handleHeatmap = (e, value) => {
-    setPointsInfo((prev) => {
-      return prev.map((el) => ({ ...el, value: value }));
-    });
+    setPointsInfo(data[value]);
   };
 
   useEffect(() => {
-    let data = {
+    let dataSet = {
       max: 100,
       min: 0,
       data: pointsInfo,
     };
-    heatMapInstance && heatMapInstance.setData(data);
+    heatMapInstance && heatMapInstance.setData(dataSet);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pointsInfo]);
+  }, [heatMapInstance, pointsInfo]);
 
   return (
     <>
-      {JSON.stringify(pointsInfo)}
       <div style={{ width: "400px" }}>
         <Slider
-          defaultValue={50}
+          max={61}
+          defaultValue={0}
           aria-label="Default"
           valueLabelDisplay="auto"
           onChange={handleHeatmap}
         />
       </div>
 
-      <div id="mydiv" className="heatmap" style={{ display: "block" }}>
-        <img
-          src={Image}
-          alt="road"
-          onLoad={() => {
-            setHeatMapInstance(
-              h337.create({
-                container: document.querySelector(".heatmap"),
-                gradient: {
-                  1: "blue",
-                  ".5": "cyan",
-                  ".8": "red",
-                  ".95": "white",
-                },
-              })
-            );
-          }}
-        />
+      <div style={{ display: "flex" }}>
+        <div id="mydiv" className="heatmap" style={{ display: "block" }}>
+          <img height="810px" width="703px" src={Image} alt="road" />
+        </div>
+        <div style={{ textAlign: "left", paddingLeft:"2rem" }}>
+          <div>blue: 0 - 200</div>
+          <div>cyan: 200 - 500</div>
+          <div>yellow: 500 - 1000</div>
+          <div>orange: 1000 - 1500</div>
+          <div>red: 1500 - 2000</div>
+        </div>
       </div>
     </>
   );
