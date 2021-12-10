@@ -69,7 +69,7 @@ export default function Heatmap() {
 
       <div style={{ display: "flex" }}>
         <div id="mydiv" className="heatmap" style={{ display: "block" }}>
-          <img height="810px" width="703px" src={Image} alt="road" />
+          <img height="703px" width="810px" src={Image} alt="road" />
         </div>
         <div style={{ textAlign: "left", paddingLeft:"2rem" }}>
           <div>blue: 0 - 200</div>
