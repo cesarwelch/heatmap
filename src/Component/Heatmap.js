@@ -11,15 +11,15 @@ export default function Heatmap() {
   // const [pointsInfo, setPointsInfo] = useState(data[0]);
   const [pointsInfo, setPointsInfo] = useState([data[0]]);
 
-  const test = ogData.map((i) =>
-    i.map((j) => {
-      return { x: j.x / 4, y: j.y / 4, value: (j.value / 100) * 4 };
-    })
-  );
-  console.log(
-    "🚀 ~ file: Heatmap.js ~ line 18 ~ Heatmap ~ test",
-    JSON.stringify(test)
-  );
+  // const test = ogData.map((i) =>
+  //   i.map((j) => {
+  //     return { x: j.x / 4, y: j.y / 4, value: (j.value / 100) * 4 };
+  //   })
+  // );
+  // console.log(
+  //   "🚀 ~ file: Heatmap.js ~ line 18 ~ Heatmap ~ test",
+  //   JSON.stringify(test)
+  // );
 
   useEffect(() => {
     const instance = h337.create({
