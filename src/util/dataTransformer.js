@@ -74,7 +74,11 @@ const getGranularityXData = (dataOfDay, granularity) => {
         dataSet.push(dataOfDay[i][j]);
       }
       if (dataOfDay[i][j].value > maxValue) {
-        maxValue = dataOfDay[i][j].value;
+        if (founded) {
+          maxValue = founded.value;
+        } else {
+          maxValue = dataOfDay[i][j].value;
+        }
       }
     }
     if (i && (i % granularity === 0 || i === dataOfDay.length - 1)) {

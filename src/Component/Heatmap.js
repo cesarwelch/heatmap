@@ -15,7 +15,12 @@ import "./styles.css";
 import ToggleFilter from "./ToggleFilter";
 
 export default function Heatmap() {
-  const [apiData, setApiData] = useState();
+  const [transformedSourceData, setTransformedSourceData] = useState({
+    4: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    5: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    6: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    all: { 1: [], 30: [], 60: [], 180: [], day: [] },
+  });
   const [heatMapInstance, setHeatMapInstance] = useState();
   const [mainData, setMainData] = useState({
     data: [],
@@ -42,18 +47,25 @@ export default function Heatmap() {
   );
 
   const getData = useCallback(async () => {
-    // const returnData = await getItcData();
-    let transformedData;
-    if (apiData) {
-      transformedData = dataTransformer(apiData, date, granularity);
+    console.log(
+      "🚀 ~ file: Heatmap.js ~ line 51 ~ getData ~ transformedSourceData[date][granularity]",
+      transformedSourceData[date][granularity]
+    );
+    if (transformedSourceData[date][granularity].maxSlider) {
+      setMainData(transformedSourceData[date][granularity]);
     } else {
+      let transformedData;
       const returnData = await getItcData();
-      setApiData(returnData);
       transformedData = dataTransformer(returnData, date, granularity);
+      setTransformedSourceData((prev) => {
+        const temp = { ...prev };
+        temp[date][granularity] = transformedData;
+        return temp;
+      });
+      setMainData(transformedData);
     }
-
-    setMainData(transformedData);
-  }, [apiData, date, granularity]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date, granularity]);
 
   useEffect(() => {
     getData();
@@ -108,7 +120,7 @@ export default function Heatmap() {
     heatMapInstance &&
       pointsInfo.length > 0 &&
       heatMapInstance.setData(dataSet);
-  }, [heatMapInstance, mainData.maxValue, pointsInfo]);
+  }, [heatMapInstance, mainData, pointsInfo]);
 
   return (
     <>
@@ -164,8 +176,6 @@ export default function Heatmap() {
           <img height="703px" width="810px" src={Image} alt="road" />
         </div>
         <div style={{ textAlign: "left", paddingLeft: "2rem" }}>
-      
-         
           <div>blue: 0 - {mainData.maxValue * 0.01}</div>
           <div>
             cyan: {mainData.maxValue * 0.01} - {mainData.maxValue * 0.25}
