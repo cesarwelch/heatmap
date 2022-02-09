@@ -32,7 +32,7 @@ export const dataTransformer = (allData, day, granularity) => {
         maxValue: returnData.maxValue,
       };
     case "day":
-      returnData = getGranularityXData(dataOfDay, 1440);
+      returnData = getGranularityXData(dataOfDay, 661);
       return {
         data: returnData.data,
         maxSlider: returnData.data.length,
@@ -40,7 +40,7 @@ export const dataTransformer = (allData, day, granularity) => {
       };
     default:
     case "all":
-      returnData = getGranularityXData(dataOfDay, 4320);
+      returnData = getGranularityXData(dataOfDay, 8320);
       return {
         data: returnData.data,
         maxSlider: returnData.data.length,
@@ -93,7 +93,7 @@ export const getItcData = async () => {
   const r = await fetch(
     `${
       process.env.REACT_APP_HOST_URL || "https://heatmap-52cff.web.app/"
-    }itcData.json`
+    }manifest2022.json`
   );
   return await r.json();
 };
@@ -113,8 +113,8 @@ export const granularityFiltersOptions = (daysFilterOption) => {
 };
 
 export const daysFiltersOptions = [
-  { value: 4, label: "4th December" },
-  { value: 5, label: "5th December" },
-  { value: 6, label: "6th December" },
+  { value: 25, label: "25th December" },
+  { value: 26, label: "26th December" },
+  { value: 27, label: "27th December" },
   { value: "all", label: "All Event" },
 ];

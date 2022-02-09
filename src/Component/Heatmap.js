@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import h337 from "heatmapjs";
 import Slider from "@mui/material/Slider";
-import Image from "../assets/itcPlan.png";
+import Image from "../assets/manifest2022.jpg";
 // import { x as ogData } from "../assets/heatmapdata";
 import Button from "@mui/material/Button";
 import { useInterval, useBoolean } from "react-use";
@@ -16,10 +16,10 @@ import ToggleFilter from "./ToggleFilter";
 
 export default function Heatmap() {
   const [transformedSourceData, setTransformedSourceData] = useState({
-    4: { 1: [], 30: [], 60: [], 180: [], day: [] },
-    5: { 1: [], 30: [], 60: [], 180: [], day: [] },
-    6: { 1: [], 30: [], 60: [], 180: [], day: [] },
-    all: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    25: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    26: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    27: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    all: { 1: [], 30: [], 60: [], 180: [], day: [], all: [] },
   });
   const [heatMapInstance, setHeatMapInstance] = useState();
   const [mainData, setMainData] = useState({
@@ -32,7 +32,7 @@ export default function Heatmap() {
   const [delay] = useState(100);
   const [isRunning, toggleIsRunning] = useBoolean(false);
   const [granularity, setGranularity] = useState(1);
-  const [date, setDate] = useState(4);
+  const [date, setDate] = useState(25);
 
   useInterval(
     () => {
@@ -47,16 +47,35 @@ export default function Heatmap() {
   );
 
   const getData = useCallback(async () => {
-    console.log(
-      "🚀 ~ file: Heatmap.js ~ line 51 ~ getData ~ transformedSourceData[date][granularity]",
-      transformedSourceData[date][granularity]
-    );
     if (transformedSourceData[date][granularity].maxSlider) {
       setMainData(transformedSourceData[date][granularity]);
     } else {
       let transformedData;
       const returnData = await getItcData();
+      console.log(
+        "🚀 ~ file: Heatmap.js ~ line 64 ~ getData ~ returnData",
+        returnData.length
+      );
+      let counter = 0;
+      let counter2 = 0;
+      let counter3 = 0;
+      returnData.forEach((t) => {
+        if (t?.[0]?.timestamp?.includes("2022-01-25")) {
+          counter = counter + t?.length;
+        }
+        if (t?.[0]?.timestamp?.includes("2022-01-26")) {
+          counter2++;
+        }
+        if (t?.[0]?.timestamp?.includes("2022-01-27")) {
+          counter3++;
+        }
+      });
+      console.log(counter, counter2, counter3, "counter");
       transformedData = dataTransformer(returnData, date, granularity);
+      console.log(
+        "🚀 ~ file: Heatmap.js ~ line 60 ~ getData ~ transformedData",
+        transformedData.length
+      );
       setTransformedSourceData((prev) => {
         const temp = { ...prev };
         temp[date][granularity] = transformedData;
@@ -173,7 +192,7 @@ export default function Heatmap() {
       </div>
       <div style={{ display: "flex" }}>
         <div id="mydiv" className="heatmap" style={{ display: "block" }}>
-          <img height="703px" width="810px" src={Image} alt="road" />
+          <img height="651px" width="990px" src={Image} alt="road" />
         </div>
         <div style={{ textAlign: "left", paddingLeft: "2rem" }}>
           <div>blue: 0 - {mainData.maxValue * 0.01}</div>
