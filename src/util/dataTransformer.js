@@ -90,6 +90,10 @@ const getGranularityXData = (dataOfDay, granularity) => {
 };
 
 export const getItcData = async () => {
+  console.log(
+    "🚀 ~ file: dataTransformer.js ~ line 96 ~ getItcData ~ process.env",
+    process.env
+  );
   const r = await fetch(
     `${
       process.env.REACT_APP_HOST_URL || "https://heatmap-52cff.web.app/"

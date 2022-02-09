@@ -52,30 +52,7 @@ export default function Heatmap() {
     } else {
       let transformedData;
       const returnData = await getItcData();
-      console.log(
-        "🚀 ~ file: Heatmap.js ~ line 64 ~ getData ~ returnData",
-        returnData.length
-      );
-      let counter = 0;
-      let counter2 = 0;
-      let counter3 = 0;
-      returnData.forEach((t) => {
-        if (t?.[0]?.timestamp?.includes("2022-01-25")) {
-          counter = counter + t?.length;
-        }
-        if (t?.[0]?.timestamp?.includes("2022-01-26")) {
-          counter2++;
-        }
-        if (t?.[0]?.timestamp?.includes("2022-01-27")) {
-          counter3++;
-        }
-      });
-      console.log(counter, counter2, counter3, "counter");
       transformedData = dataTransformer(returnData, date, granularity);
-      console.log(
-        "🚀 ~ file: Heatmap.js ~ line 60 ~ getData ~ transformedData",
-        transformedData.length
-      );
       setTransformedSourceData((prev) => {
         const temp = { ...prev };
         temp[date][granularity] = transformedData;
