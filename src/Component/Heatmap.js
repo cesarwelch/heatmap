@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import h337 from "heatmapjs";
 import Slider from "@mui/material/Slider";
-import Image from "../assets/manifest2022.jpg";
+import Image from "../assets/hrt2022.jpg";
 // import { x as ogData } from "../assets/heatmapdata";
 import Button from "@mui/material/Button";
 import { useInterval, useBoolean } from "react-use";
@@ -16,9 +16,9 @@ import ToggleFilter from "./ToggleFilter";
 
 export default function Heatmap() {
   const [transformedSourceData, setTransformedSourceData] = useState({
-    25: { 1: [], 30: [], 60: [], 180: [], day: [] },
-    26: { 1: [], 30: [], 60: [], 180: [], day: [] },
-    27: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    14: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    15: { 1: [], 30: [], 60: [], 180: [], day: [] },
+    16: { 1: [], 30: [], 60: [], 180: [], day: [] },
     all: { 1: [], 30: [], 60: [], 180: [], day: [], all: [] },
   });
   const [heatMapInstance, setHeatMapInstance] = useState();
@@ -32,7 +32,7 @@ export default function Heatmap() {
   const [delay] = useState(100);
   const [isRunning, toggleIsRunning] = useBoolean(false);
   const [granularity, setGranularity] = useState(1);
-  const [date, setDate] = useState(25);
+  const [date, setDate] = useState(14);
 
   useInterval(
     () => {
@@ -157,6 +157,8 @@ export default function Heatmap() {
                 setValue={(newValue) => {
                   setSliderCount(0);
                   setDate(newValue);
+                  setPointsInfo(mainData.data[0]);
+
                   if (newValue !== "all") {
                     setGranularity(1);
                   }
@@ -169,7 +171,7 @@ export default function Heatmap() {
       </div>
       <div style={{ display: "flex" }}>
         <div id="mydiv" className="heatmap" style={{ display: "block" }}>
-          <img height="651px" width="990px" src={Image} alt="road" />
+          <img height="522px" width="1068px" src={Image} alt="road" />
         </div>
         <div style={{ textAlign: "left", paddingLeft: "2rem" }}>
           <div>blue: 0 - {mainData.maxValue * 0.01}</div>

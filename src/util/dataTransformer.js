@@ -90,14 +90,10 @@ const getGranularityXData = (dataOfDay, granularity) => {
 };
 
 export const getItcData = async () => {
-  console.log(
-    "🚀 ~ file: dataTransformer.js ~ line 96 ~ getItcData ~ process.env",
-    process.env
-  );
   const r = await fetch(
     `${
       process.env.REACT_APP_HOST_URL || "https://heatmap-52cff.web.app/"
-    }manifest2022.json`
+    }hrt2022.json`
   );
   return await r.json();
 };
@@ -116,9 +112,12 @@ export const granularityFiltersOptions = (daysFilterOption) => {
   return retVal;
 };
 
+export const eventDays = [14, 15, 16];
+export const eventMonth = "March";
+
 export const daysFiltersOptions = [
-  { value: 25, label: "25th December" },
-  { value: 26, label: "26th December" },
-  { value: 27, label: "27th December" },
+  { value: eventDays[0], label: `${eventDays[0]}th ${eventMonth}` },
+  { value: eventDays[1], label: `${eventDays[1]}th ${eventMonth}` },
+  { value: eventDays[2], label: `${eventDays[2]}th ${eventMonth}` },
   { value: "all", label: "All Event" },
 ];
