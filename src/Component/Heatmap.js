@@ -13,6 +13,8 @@ import {
 } from "../util/dataTransformer";
 import "./styles.css";
 import ToggleFilter from "./ToggleFilter";
+import Tooltip from "./Tooltip";
+import useStore from "./store";
 
 export default function Heatmap() {
   const [transformedSourceData, setTransformedSourceData] = useState({
@@ -31,7 +33,9 @@ export default function Heatmap() {
   const [sliderCount, setSliderCount] = useState(0);
   const [delay] = useState(100);
   const [isRunning, toggleIsRunning] = useBoolean(false);
-  const [granularity, setGranularity] = useState(1);
+  const granularity = useStore((state) => state.granularity);
+  const setGranularity = useStore((state) => state.setGranularity);
+
   const [date, setDate] = useState(14);
 
   useInterval(
@@ -157,7 +161,6 @@ export default function Heatmap() {
                 setValue={(newValue) => {
                   setSliderCount(0);
                   setDate(newValue);
-                  setPointsInfo(mainData.data[0]);
 
                   if (newValue !== "all") {
                     setGranularity(1);
@@ -207,6 +210,9 @@ export default function Heatmap() {
             valueLabelDisplay="auto"
             onChange={handleHeatmap}
             value={sliderCount}
+            components={{
+              ValueLabel: Tooltip,
+            }}
           />
         )}
       </div>

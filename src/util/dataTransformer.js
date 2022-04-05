@@ -107,7 +107,7 @@ export const granularityFiltersOptions = (daysFilterOption) => {
     { value: "day", label: "Day" },
   ];
   if (daysFilterOption === "all") {
-    retVal.push({ value: "all", label: "All Event" });
+    // retVal.push({ value: "all", label: "All Event" });
   }
   return retVal;
 };
